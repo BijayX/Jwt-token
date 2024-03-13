@@ -38,8 +38,8 @@ class ApiController extends Controller
             "email" => "required|email",
             "password" => "required"
         ]);
-        $expirationTime = Carbon::now()->addMinutes(2);
-        $refreshExpirationTime = Carbon::now()->addHours(20);
+        $expirationTime = Carbon::now()->addSeconds(5);
+        $refreshExpirationTime = Carbon::now()->addSeconds(4);
         $token = JWTAuth::attempt([
             "email" => $request->email,
             "password" => $request->password
@@ -53,7 +53,6 @@ class ApiController extends Controller
             [
                 'exp' => $refreshExpirationTime->timestamp,
             ]);
-
             return response()->json([
                 "status" => true,
                 "message" => "User logged in succcessfully",
@@ -81,16 +80,16 @@ class ApiController extends Controller
 
     }
 
-    public function refreshToken(){
-        $newToken = auth()->refresh();
+    // public function refreshToken(){
+    //     $newToken = auth()->refresh();
 
-        return response()->json([
-            "status" => true,
-            "message" => "New access token",
-            "token" => $newToken
-        ]);
+    //     return response()->json([
+    //         "status" => true,
+    //         "message" => "New access token",
+    //         "token" => $newToken
+    //     ]);
 
-    }
+    // }
 
     public function logout(){
         auth()->logout();
